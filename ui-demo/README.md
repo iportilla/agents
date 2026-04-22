@@ -43,7 +43,7 @@ This application demonstrates:
 
 1. **Clone or navigate to the project directory**
    ```bash
-   cd streamlit_agent_app
+   cd ../ui-demo/
    ```
 
 2. **Create a virtual environment** (recommended)
@@ -78,7 +78,7 @@ The application will open in your default web browser at `http://localhost:8501`
 ## 📁 Project Structure
 
 ```
-streamlit_agent_app/
+../ui-demo/
 ├── app.py              # Main Streamlit application
 ├── tools.py            # Custom tool definitions
 ├── requirements.txt    # Python dependencies
