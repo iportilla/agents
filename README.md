@@ -4,7 +4,10 @@ This repository contains the slide deck and supporting materials for the Fun ReA
 
 Thought → Action → Observation → (repeat) → Final Answer
 
-Students work in small teams to complete creative scenarios—Escape Rooms, Food Trucks, Pet Matching, Wizard Quests, and more—by identifying tools, reasoning steps, and failure modes.
+Students work in small teams to complete creative scenarios
+
+—Escape Rooms, Food Trucks, Pet Matching, Wizard Quests, and more—by identifying tools, reasoning steps, and failure modes.
+
 No coding required.
 
 
@@ -13,7 +16,9 @@ No coding required.
 
 Slides
 	•	Fun_ReAct_Lab_Activities_Detailed_Slides.pptx
+	
 A full classroom presentation including:
+
 	•	Goals for each activity
 	•	Tool lists
 	•	Step-by-step student instructions
@@ -22,12 +27,14 @@ A full classroom presentation including:
 Worksheets (optional)
 
 If included in this repo:
+
 	•	Activity worksheets (blanks)
 	•	Teacher keys
 
 Diagrams (optional)
 
 If included:
+
 	•	ReAct pattern diagram
 	•	Tool selection logic
 	•	Agent planning loops
@@ -36,6 +43,7 @@ If included:
 ## Learning Objectives
 
 By the end of the lab, students will be able to:
+
 	•	Explain the ReAct reasoning loop
 	•	Identify appropriate tools for an agent
 	•	Construct multi-step Thought → Action → Observation sequences
@@ -45,6 +53,7 @@ By the end of the lab, students will be able to:
 ## Activities Included
 
 Each activity includes its own tools + instructions:
+
 	1.	AI Escape Room
 	2.	Food Truck Manager
 	3.	Pet Adoption Agent
@@ -54,6 +63,7 @@ Each activity includes its own tools + instructions:
 	7.	Logistics Optimization Agent
 
 All activities are designed for:
+
 	•	Small groups
 	•	Conceptual reasoning
 	•	Fun, creative exploration
@@ -61,6 +71,7 @@ All activities are designed for:
 
 
  How to Use This Presentation
+ 
 	1.	Download the slide deck
 	2.	Assign an activity to each group
 	3.	Use worksheets or blank paper
@@ -71,6 +82,7 @@ All activities are designed for:
 ⸻
 
 ## Class Flow
+
 	1.	Introduce the ReAct pattern
 	2.	Show examples of Thought/Action/Observation steps
 	3.	Explain activity instructions
