@@ -34,4 +34,13 @@ def calculate(
         return f"Error: {str(e)}"
 
 if __name__ == "__main__":
-    mcp.run()
+    import sys
+
+    # "python mcp_calculator.py sse" serves over HTTP/SSE for the cloud setup;
+    # with no argument it uses stdio, which is how local MCP clients start it.
+    if len(sys.argv) > 1 and sys.argv[1] == "sse":
+        mcp.settings.host = "0.0.0.0"
+        mcp.settings.port = 8000
+        mcp.run(transport="sse")
+    else:
+        mcp.run()
