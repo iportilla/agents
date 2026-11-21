@@ -1,11 +1,13 @@
 # Lab 06 — Build a CSV analyst four ways
 
 **Time:** 25 minutes in class, plus an optional take-home
-**You need:** Claude Code (signed in), Python 3.10+, this folder
+**You need:** a Claude account that includes Claude Code (a paid plan, or an API key from
+your instructor), and either Claude Code with Python 3.10+ on your laptop, or a login to
+the class VM
 **Goes with:** the lecture deck *From Chat to Agent with Claude*
 
 You'll give Claude the same job (answering questions about `sample.csv`) four ways, and
-see what each one changes. Every step is local. Nothing here needs a cloud server.
+see what each one changes. The steps are the same on your laptop and on the class VM.
 
 | Step | Way | What you'll see |
 |---|---|---|
@@ -16,6 +18,13 @@ see what each one changes. Every step is local. Nothing here needs a cloud serve
 | 5 | Safety | Which layers hold, and which can be argued with |
 
 ## Setup (before class, 5 minutes)
+
+Pick one option.
+
+### Option A: your laptop
+
+You need Claude Code installed ([setup guide](https://code.claude.com/docs/en/setup)) and
+Python 3.10+.
 
 ```bash
 cd labs/06_claude_agents
@@ -29,6 +38,36 @@ Then start Claude Code in this folder:
 ```bash
 claude
 ```
+
+### Option B: the class VM
+
+No install needed: your instructor gives you a username, a password and the VM's
+address. Everything is already set up there.
+
+1. Log in from a terminal (Terminal on macOS, PowerShell on Windows):
+
+   ```bash
+   ssh YOUR_USERNAME@VM_ADDRESS
+   ```
+
+   The first time, you'll be asked to choose a new password, then logged out. Log in again
+   with the new one.
+
+2. You start in `~/lab` with the Python environment active. Start Claude Code:
+
+   ```bash
+   claude
+   ```
+
+3. Sign in with your own account. There's no browser on the VM, so copy the login URL
+   (press `c`, or copy it from the screen), open it on your laptop, sign in, and paste the
+   code it shows back into the terminal. If your instructor gave you an API key instead,
+   run `export ANTHROPIC_API_KEY=...` before `claude`, and approve it when asked.
+
+Everywhere this guide says "this folder", on the VM that means `~/lab`. To edit files, use
+`nano FILE`, ask Claude to write them, or connect VS Code with the Remote-SSH extension.
+
+### Either way
 
 Claude Code reads `CLAUDE.md` (the project's memory) and `.claude/settings.json` (the
 permission rules) when it starts. Open both: they're short.
@@ -183,18 +222,18 @@ the Claude app and other MCP apps can all use the same server.
 `.claude/hooks/` and the `hooks` block from `solutions/.claude/settings.json` into yours.
 Ask Claude to run `rm sample.csv`. The hook blocks it, and Claude reads the hook's reason.
 
-**B. The loop in code (30 min).** `api/` has a small math-tutor agent with a `multiply` tool,
+**B. The loop in code (30 min).** `take-home/` has a small math-tutor agent with a `multiply` tool,
 written for the Claude API twice:
 
 | File | Who writes the loop | Lines of loop code |
 |---|---|---|
-| `api/reasoning_loop.py` | You: `while stop_reason == "tool_use"` | about 40 |
-| `api/tool_runner.py` | The SDK's Tool Runner | about 10 |
+| `take-home/reasoning_loop.py` | You: `while stop_reason == "tool_use"` | about 40 |
+| `take-home/tool_runner.py` | The SDK's Tool Runner | about 10 |
 
 ```bash
 export ANTHROPIC_API_KEY=...      # this calls the API and costs a little
-python api/reasoning_loop.py "What is 15 times 23, then multiply by 4?"
-python api/tool_runner.py "What is 15 times 23, then multiply by 4?"
+python take-home/reasoning_loop.py "What is 15 times 23, then multiply by 4?"
+python take-home/tool_runner.py "What is 15 times 23, then multiply by 4?"
 ```
 
 Then add a `divide` tool to both. In which file was it easier, and what did the runner hide?
@@ -213,4 +252,7 @@ to change to share `lab-tools` with someone who doesn't use Claude Code.
 - **The skill isn't used:** check the file is at `.claude/skills/code-reviewer/SKILL.md`
   and its header has `name` and `description`. Make the description say when to use it.
 - **The subagent isn't found:** the file must be in `.claude/agents/` and end in `.md`.
+- **Class VM, sign-in doesn't finish:** make sure you pasted the code from the browser into
+  the terminal, not the URL. `claude doctor` checks the install.
+- **Class VM, `claude: command not found`:** log out and back in, or run `source ~/.bashrc`.
 - Finished files for every step are in `solutions/`.
