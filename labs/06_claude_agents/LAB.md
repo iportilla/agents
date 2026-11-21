@@ -92,8 +92,16 @@ A skill is a folder with a `SKILL.md` file: instructions plus a `description` th
 Claude *when* to use them. Claude reads only the description up front, and loads the rest
 when a request matches. `starter/skill.md` is a plain prompt file; you'll turn it into a skill.
 
-1. Create `.claude/skills/code-reviewer/SKILL.md`. Start it with this header, then paste
-   the contents of `starter/skill.md` under it:
+1. Create the skill. From the lab folder:
+
+   ```bash
+   mkdir -p .claude/skills/code-reviewer
+   cp starter/skill.md .claude/skills/code-reviewer/SKILL.md
+   nano .claude/skills/code-reviewer/SKILL.md
+   ```
+
+   Add this header at the very top, above `# Skill: Python Code Reviewer`. The first line
+   of the file must be `---`, and the description must stay on one line:
 
    ```markdown
    ---
@@ -102,14 +110,34 @@ when a request matches. `starter/skill.md` is a plain prompt file; you'll turn i
    ---
    ```
 
+   Save (`Ctrl+O`, `Enter`, `Ctrl+X` in nano).
+
 2. In Claude Code, type `/clear` (to start a fresh conversation), then ask:
 
    > Can you check primes.py?
 
-   You didn't name the skill. Did the answer come back in **Issues / Suggestions / Verdict**?
+   You didn't name the skill. Look for **`code-reviewer` · Loaded skill** at the top of the
+   reply, and an answer in three parts: **Issues**, **Suggestions** and **Verdict**.
 
-3. Change one rule in `SKILL.md` (for example, "Suggestions: at most one") and ask again.
-   The change applies on the next use, with nothing to restart.
+   The skill limits *Suggestions* to three; it doesn't limit *Issues*. `primes.py` has
+   several real problems, so a long list under Issues is expected.
+
+3. Now change the skill and watch the answer change. In `SKILL.md`, add this line at the
+   end of the `## Rules` list:
+
+   ```markdown
+   - End every review with a line that starts with "TL;DR:" and sums it up in under 15 words.
+   ```
+
+   Save, type `/clear`, and ask the same question. The review should now end with a
+   `TL;DR:` line.
+
+   **Why `/clear`?** Claude Code notices the edit straight away, but a skill that is already
+   loaded in a conversation stays there as it was. A fresh conversation loads the new version.
+
+**If the skill isn't used:** type `/skills` to check `code-reviewer` is listed. If it isn't,
+the header is usually the problem: the file must start with `---` on line 1. You can also
+run it directly by typing `/code-reviewer primes.py`.
 
 **Answer in one line:** what in the `description` made Claude pick the skill?
 
