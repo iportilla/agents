@@ -42,11 +42,14 @@ The important part: **the model never runs a tool itself.** It writes a *request
 sends back the result as text.
 
 ```mermaid
-flowchart LR
-    M["Claude (the model)"] -->|"1. writes a request:<br/>call csv_stats(salary)"| H["The program running Claude"]
-    H -->|"2. runs the real code"| T["csv_stats function"]
-    T -->|"3. returns text:<br/>mean 90,733"| H
-    H -->|"4. passes the result back"| M
+sequenceDiagram
+    participant M as Claude, the model
+    participant H as The program running Claude
+    participant T as csv_stats function
+    M->>H: Please call csv_stats with column = salary
+    H->>T: Run the real code
+    T-->>H: mean = 90,733
+    H-->>M: Here is the result, as text
 ```
 
 Two consequences you'll meet again:
@@ -62,7 +65,7 @@ the result, and decides again, until it can answer.
 
 ```mermaid
 flowchart TD
-    Q["You ask a question"] --> D{"Claude: do I have<br/>enough to answer?"}
+    Q["You ask a question"] --> D{"Enough to answer?"}
     D -->|No| A["Claude asks for a tool"]
     A --> R["The tool runs"]
     R --> O["The result goes back to Claude"]
@@ -94,15 +97,11 @@ runs the tools the model asks for, and asks your permission before risky ones.
 script in the lab's `take-home/` folder. Same model, different harnesses, different tools.
 
 ```mermaid
-flowchart TB
-    subgraph CC["Claude Code (the harness)"]
-        direction LR
-        L["The agent loop"] --- P["Permission checks"]
-        L --- BT["Built-in tools:<br/>Read, Edit, Bash, Grep…"]
-    end
-    You["You"] <--> CC
-    CC <-->|"text in, text out"| M["Claude model<br/>(in Anthropic's cloud)"]
-    CC <--> F["Your files and terminal"]
+flowchart TD
+    You["You"] --> H["Claude Code, the harness: runs the loop, checks permissions, runs tools"]
+    H -->|your question and tool results| M["Claude model, in Anthropic's cloud"]
+    M -->|answers and tool requests| H
+    H -->|Read, Edit, Bash, Grep| F["Your files and terminal"]
 ```
 
 Notice where the model lives: in the cloud. **Whatever a tool returns is sent to the
@@ -157,9 +156,9 @@ sequenceDiagram
 
     Note over CC,M: Session starts
     CC->>M: Only the skill's name and description
-    Note over M: Knows the skill exists,<br/>hasn't read the rules yet
-    CC->>M: You: "Can you check primes.py?"
-    Note over M: "check Python code" matches<br/>the description
+    Note over M: Knows the skill exists
+    CC->>M: You ask: Can you check primes.py?
+    Note over M: Matches the description
     M->>CC: Load code-reviewer
     CC->>S: Read the body
     S-->>CC: The rules
@@ -206,17 +205,19 @@ own separate conversation, reading as much as it needs, and only its **summary**
 The main conversation stays short and focused.
 
 ```mermaid
-flowchart LR
-    subgraph Main["Main conversation"]
-        U["You: How do salaries<br/>compare by department?"] --> MA["Main agent"]
-        MA --> Ans["Answer to you"]
-    end
-    subgraph Sub["Subagent's own conversation"]
-        SA["csv-analyst<br/>tools: Read, Grep, Glob"] --> R1["reads sample.csv"]
-        R1 --> R2["checks columns,<br/>does the arithmetic"]
-    end
-    MA -->|"hands over the task"| SA
-    R2 -->|"returns only a summary"| MA
+sequenceDiagram
+    actor You
+    participant Main as Main agent
+    participant Sub as csv-analyst subagent
+    participant F as sample.csv
+    You->>Main: How do salaries compare by department?
+    Main->>Sub: Hand over the task
+    Note over Sub: Own conversation, tools Read, Grep, Glob only
+    Sub->>F: Read the file
+    F-->>Sub: 15 rows
+    Note over Sub: Checks columns, does the arithmetic
+    Sub-->>Main: A short summary only
+    Main-->>You: The answer
 ```
 
 In the lab you ran the subagent directly with `claude --agent csv-analyst`, so the whole
@@ -237,19 +238,12 @@ A common comparison is USB-C: one standard plug, and any app that speaks MCP can
 MCP server.
 
 ```mermaid
-flowchart LR
-    subgraph Apps["Apps that speak MCP"]
-        CC["Claude Code"]
-        CA["Claude app"]
-        O["Other MCP apps"]
-    end
-    subgraph Server["lab-tools (mcp_server/server.py)"]
-        T1["calculate"]
-        T2["csv_stats"]
-    end
-    CC <-->|MCP| Server
-    CA <-->|MCP| Server
-    O <-->|MCP| Server
+flowchart TD
+    CC["Claude Code"] -->|MCP| S["lab-tools MCP server"]
+    CA["Claude app"] -->|MCP| S
+    O["Other MCP apps"] -->|MCP| S
+    S --> T1["Tool: calculate"]
+    S --> T2["Tool: csv_stats"]
     T2 --> CSV[("sample.csv")]
 ```
 
@@ -273,14 +267,14 @@ sequenceDiagram
     participant M as Claude
     participant S as lab-tools server
 
-    Note over CC,S: At startup, Claude Code starts the server<br/>and asks for its list of tools
+    Note over CC,S: At startup Claude Code starts the server and gets its tool list
     You->>CC: Average salary by department?
     CC->>M: Your question + all tool descriptions
     M-->>CC: Call csv_stats(sample.csv, salary, department)
     CC->>S: Run csv_stats
     S-->>CC: A small table of results
     CC->>M: The table
-    M-->>CC: "Finance has the highest average, about $110,667"
+    M-->>CC: Finance has the highest average, about 110,667
     CC->>You: The answer
 ```
 
@@ -299,13 +293,13 @@ Why build an MCP server instead of letting Claude run Python through its shell?
 These aren't competing options. One Claude Code session can use all of them at once:
 
 ```mermaid
-flowchart TB
-    You["You"] --> Main["Main agent (Claude Code)"]
-    Main --- MEM["CLAUDE.md<br/>project memory, always loaded"]
-    Main --- BI["Built-in tools<br/>Read, Edit, Bash…"]
-    Main -.->|"loads when relevant"| SK["Skill: code-reviewer"]
-    Main -.->|"hands off a task"| SUB["Subagent: csv-analyst<br/>Read, Grep, Glob only"]
-    Main -->|"calls tools"| MCP["MCP server: lab-tools"]
+flowchart LR
+    You["You"] --> Main["Main agent in Claude Code"]
+    Main --- MEM["CLAUDE.md, always loaded"]
+    Main --- BI["Built-in tools"]
+    Main -.->|when relevant| SK["Skill: code-reviewer"]
+    Main -.->|hands off a task| SUB["Subagent: csv-analyst"]
+    Main -->|calls tools| MCP["MCP server: lab-tools"]
     MCP --> CSV[("sample.csv")]
 ```
 
@@ -313,13 +307,13 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-    Start(["I want Claude to…"]) --> Q1{"…reach a system or data<br/>it can't reach today?"}
+    Start(["I want Claude to..."]) --> Q1{"Reach new data or a system?"}
     Q1 -->|Yes| MCP["Write an MCP server"]
-    Q1 -->|No| Q2{"…follow a procedure, style<br/>or checklist, only some of the time?"}
+    Q1 -->|No| Q2{"Follow a procedure sometimes?"}
     Q2 -->|Yes| SK["Write a skill"]
-    Q2 -->|No| Q3{"…hand a task to a helper with<br/>fewer tools or its own context?"}
+    Q2 -->|No| Q3{"Hand off a task with fewer tools?"}
     Q3 -->|Yes| SUB["Write a subagent"]
-    Q3 -->|No| Q4{"…always know a fact<br/>about this project?"}
+    Q3 -->|No| Q4{"Always know a project fact?"}
     Q4 -->|Yes| MD["Add it to CLAUDE.md"]
     Q4 -->|No| BI["The built-in tools are enough"]
 ```
@@ -340,12 +334,12 @@ anything that matters. Real safety comes from what the agent **cannot** do.
 The protections in this lab, from weakest to strongest:
 
 ```mermaid
-flowchart LR
-    I["1. Instructions<br/>CLAUDE.md, skill<br/>and agent files"] --> P["2. Permission rules<br/>.claude/settings.json"]
-    P --> H["3. Hooks<br/>a script run before<br/>every matching tool call"]
-    H --> T["4. Tool list<br/>tools: line,<br/>MCP server"]
-    T --> C["5. Input checks<br/>in the tool's code"]
-    C --> LP["6. Least privilege<br/>read-only credentials"]
+flowchart TD
+    I["WEAKEST - Instructions: CLAUDE.md, skill and agent files"] --> P["Permission rules: .claude/settings.json"]
+    P --> H["Hooks: a script run before matching tool calls"]
+    H --> T["Tool list: the tools line, the MCP server"]
+    T --> C["Input checks: in the tool's own code"]
+    C --> LP["STRONGEST - Least privilege: read-only credentials"]
 ```
 
 | Layer | Can the model talk its way past it? |
