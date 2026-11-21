@@ -10,7 +10,7 @@ and what keeps an agent safe.
 |---|---|
 | [`docs/INTRO-TO-AGENTS.md`](docs/INTRO-TO-AGENTS.md) | Start here if you're new to agents: models, tools, the agent loop, skills, subagents, MCP servers and safety, explained with diagrams and tied to the lab steps |
 | [`docs/From-Chat-to-Agent-with-Claude.pdf`](docs/From-Chat-to-Agent-with-Claude.pdf) | The lecture slides as a PDF (18 slides). The editable deck, with speaker notes, is [online](https://claude.ai/artifact/VxdYTsrmJ1zVErnfKw6zXz) |
-| [`docs/Lab-Build-a-CSV-Analyst-Four-Ways.pdf`](docs/Lab-Build-a-CSV-Analyst-Four-Ways.pdf) | The lab walkthrough slides as a PDF (18 slides), to show while students work. The editable deck, with speaker notes, is [online](https://claude.ai/artifact/Tr2TMrbsYPhPXWLZYJt1y9) |
+| [`docs/Lab-Build-a-CSV-Analyst-Four-Ways.pdf`](docs/Lab-Build-a-CSV-Analyst-Four-Ways.pdf) | The lab walkthrough slides as a PDF (19 slides), to show while students work. The editable deck, with speaker notes, is [online](https://claude.ai/artifact/Tr2TMrbsYPhPXWLZYJt1y9) |
 | [`labs/06_claude_agents/`](labs/06_claude_agents/) | The lab: build a CSV analyst four ways in Claude Code. Start with [`LAB.md`](labs/06_claude_agents/LAB.md) |
 | [`legacy/`](legacy/) | Earlier material (LangChain/OpenAI notebooks, the old lecture, the ReAct activity), kept for reference |
 

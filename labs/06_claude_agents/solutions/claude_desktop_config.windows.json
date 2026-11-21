@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "lab-tools": {
+      "command": "C:\\Users\\YOU\\agents\\labs\\06_claude_agents\\.venv\\Scripts\\python.exe",
+      "args": ["C:\\Users\\YOU\\agents\\labs\\06_claude_agents\\solutions\\mcp_server\\server.py"],
+      "env": {
+        "LAB_DIR": "C:\\Users\\YOU\\agents\\labs\\06_claude_agents"
+      }
+    }
+  }
+}

@@ -287,6 +287,11 @@ Why build an MCP server instead of letting Claude run Python through its shell?
 
 > **Lab step 4.** You registered `lab-tools`, saw it under `/mcp`, added `csv_stats`, and
 > checked that Claude used it for averages but not for "who is the youngest employee?".
+>
+> **Lab step 6 (optional).** You brought the *same* skill and server into the Claude
+> desktop app: the skill as a ZIP under Settings › Plugins › Skills, the server in the
+> app's config file. No code changed: only the harness did. The app needs things spelled
+> out (an upload, absolute paths) that Claude Code found on its own in the project folder.
 
 ### How they fit together
 
