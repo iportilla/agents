@@ -1,98 +1,42 @@
-## Fun ReAct Lab — Activity Presentation
+# From Chat to Agent with Claude
 
-This repository contains the slide deck and supporting materials for the Fun ReAct Lab, an interactive classroom activity designed to help students learn how AI agents reason using the ReAct pattern:
-
-Thought → Action → Observation → (repeat) → Final Answer
-
-Students work in small teams to complete creative scenarios
-
-—Escape Rooms, Food Trucks, Pet Matching, Wizard Quests, and more—by identifying tools, reasoning steps, and failure modes.
-
-No coding required.
-
-
+A 60-minute lecture and hands-on lab on how AI agents work, using the Claude app and
+Claude Code: models, tools, the agent loop, harnesses, skills, subagents, MCP servers,
+and what keeps an agent safe.
 
 ## Contents
 
-Slides
-	•	Fun_ReAct_Lab_Activities_Detailed_Slides.pptx
-	
-A full classroom presentation including:
+| Path | What it is |
+|---|---|
+| Lecture deck | [From Chat to Agent with Claude](https://claude.ai/artifact/VxdYTsrmJ1zVErnfKw6zXz): 18 slides with speaker notes; exports to PowerPoint or PDF |
+| [`labs/06_claude_agents/`](labs/06_claude_agents/) | The lab: build a CSV analyst four ways in Claude Code. Start with [`LAB.md`](labs/06_claude_agents/LAB.md) |
+| [`legacy/`](legacy/) | Earlier material (LangChain/OpenAI notebooks, the old lecture, the ReAct activity), kept for reference |
 
-	•	Goals for each activity
-	•	Tool lists
-	•	Step-by-step student instructions
-	•	Clear prompts for ReAct reasoning
+## The hour
 
-Worksheets (optional)
+| Minutes | Section |
+|---|---|
+| 0–5 | A model only writes text |
+| 5–10 | Tools: a name, a description and inputs |
+| 10–17 | The agent loop, as a diagram and as code |
+| 17–22 | Harnesses: the Claude app and Claude Code |
+| 22–30 | Four ways to add abilities: built-in tools, skills, subagents, MCP servers |
+| 30–35 | What keeps an agent safe |
+| 35–60 | Lab |
 
-If included in this repo:
+## Before class
 
-	•	Activity worksheets (blanks)
-	•	Teacher keys
+Students need Claude Code (signed in) and Python 3.10+. In the lab folder:
 
-Diagrams (optional)
+```bash
+cd labs/06_claude_agents
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-If included:
+The take-home API exercise also needs an Anthropic API key.
 
-	•	ReAct pattern diagram
-	•	Tool selection logic
-	•	Agent planning loops
-	•	Boundary diagrams
+## License
 
-## Learning Objectives
-
-By the end of the lab, students will be able to:
-
-	•	Explain the ReAct reasoning loop
-	•	Identify appropriate tools for an agent
-	•	Construct multi-step Thought → Action → Observation sequences
-	•	Understand agent failure modes
-	•	Apply agentic reasoning to real-world or creative scenarios
-
-## Activities Included
-
-Each activity includes its own tools + instructions:
-
-	1.	AI Escape Room
-	2.	Food Truck Manager
-	3.	Pet Adoption Agent
-	4.	Travel Buddy
-	5.	Wizard’s Quest
-	6.	Detective Agent
-	7.	Logistics Optimization Agent
-
-All activities are designed for:
-
-	•	Small groups
-	•	Conceptual reasoning
-	•	Fun, creative exploration
-	•	Zero coding
-
-
- How to Use This Presentation
- 
-	1.	Download the slide deck
-	2.	Assign an activity to each group
-	3.	Use worksheets or blank paper
-	4.	Students complete at least two ReAct cycles
-	5.	Present findings to the class
-	6.	Discuss agent reasoning and tool use
-
-⸻
-
-## Class Flow
-
-	1.	Introduce the ReAct pattern
-	2.	Show examples of Thought/Action/Observation steps
-	3.	Explain activity instructions
-	4.	Group breakout (10–15 minutes)
-	5.	Presentations & discussion
-	6.	Debrief with failure modes & systems thinking
-
-⸻
-
-License
-
-MIT License (or update as needed)
-
+MIT. See [LICENSE](LICENSE).

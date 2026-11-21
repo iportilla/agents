@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__lab-tools__calculate",
+      "mcp__lab-tools__csv_stats"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Edit(./sample.csv)",
+      "Bash(rm:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/block_destructive.py"
+          }
+        ]
+      }
+    ]
+  }
+}
