@@ -5,6 +5,8 @@
 your instructor), and either Claude Code with Python 3.10+ on your laptop, or a login to
 the class VM
 **Goes with:** the lecture deck *From Chat to Agent with Claude*
+**New to agents?** Read [Intro to agents](https://github.com/iportilla/agents/blob/main/docs/INTRO-TO-AGENTS.md)
+first, or after the lab if the ideas didn't click. It explains each step's idea with diagrams.
 
 You'll give Claude the same job (answering questions about `sample.csv`) four ways, and
 see what each one changes. The steps are the same on your laptop and on the class VM.
