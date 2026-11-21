@@ -12,6 +12,7 @@ talked out of an instruction, but it can't get past code it doesn't control.
 
 import ast
 import operator
+import os
 from pathlib import Path
 from typing import Optional
 
@@ -20,7 +21,11 @@ from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("lab-tools")
 
-LAB_DIR = Path(__file__).resolve().parent.parent
+# The lab folder, where sample.csv lives. Paths the model passes are resolved
+# against it, so the server works whatever folder the app starts it in (the
+# Claude desktop app doesn't start servers in the lab folder). Set LAB_DIR in
+# the app's config; otherwise it's the folder above mcp_server/.
+LAB_DIR = Path(os.environ.get("LAB_DIR") or Path(__file__).resolve().parent.parent).resolve()
 
 _OPERATORS = {
     ast.Add: operator.add,

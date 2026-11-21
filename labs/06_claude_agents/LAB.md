@@ -9,7 +9,8 @@ the class VM
 first, or after the lab if the ideas didn't click. It explains each step's idea with diagrams.
 
 You'll give Claude the same job (answering questions about `sample.csv`) four ways, and
-see what each one changes. The steps are the same on your laptop and on the class VM.
+see what each one changes. Steps 1–5 are the same on your laptop and on the class VM;
+the optional step 6 needs the Claude desktop app on your laptop.
 
 | Step | Way | What you'll see |
 |---|---|---|
@@ -18,6 +19,7 @@ see what each one changes. The steps are the same on your laptop and on the clas
 | 3 | Subagent | A narrow agent whose tool list is a hard limit |
 | 4 | MCP server | Tools you write, usable from any MCP app |
 | 5 | Safety | Which layers hold, and which can be argued with |
+| 6 | Claude desktop app (optional, laptop only) | The same skill and MCP server, in a different app |
 
 ## Setup (before class, 5 minutes)
 
@@ -244,6 +246,107 @@ the Claude app and other MCP apps can all use the same server.
    | Input checks | the server's code | No |
    | Least privilege | the credentials the tool uses | No |
 
+## Step 6 — Skill and MCP server in the Claude desktop app (optional, 10 min)
+
+Skills and MCP servers aren't tied to Claude Code. Here you bring the two you built into
+the **Claude desktop app** on macOS or Windows: no terminal agent at all, just the chat app.
+
+You need the desktop app ([download](https://claude.ai/download)), signed in, on the
+**same laptop** as this folder and its `.venv` (Option A setup). Part B doesn't work on
+the class VM or in the browser version of Claude: the app starts the server as a program
+on your computer.
+
+Both live under **Settings › Plugins**, which lists your connectors and skills, with a
+**Connectors** and a **Skills** tab.
+
+### Part A: the skill (4 min)
+
+1. **Zip the skill folder** from step 2. From the lab folder:
+
+   ```bash
+   cd .claude/skills && zip -r ~/Desktop/code-reviewer.zip code-reviewer && cd -
+   ```
+
+   On Windows, right-click the `.claude\skills\code-reviewer` folder and choose
+   **Compress to ZIP file** (or **Send to › Compressed (zipped) folder**).
+
+2. **Add it in the app.** Open **Settings › Plugins**, pick the **Skills** tab, and add a
+   skill from the ZIP. If the app asks you to turn on code execution first, do that.
+
+3. **Try it.** In a new chat, attach `primes.py` (the app can't see your lab folder) and
+   ask:
+
+   > Can you check this Python file?
+
+   You should get **Issues / Suggestions / Verdict**, and the `TL;DR:` line if you added
+   that rule: the same skill file, now in a different app.
+
+### Part B: the MCP server (6 min)
+
+1. **Find this folder's full path.** In a terminal in the lab folder, run `pwd` (macOS) or
+   `cd` (Windows PowerShell). You'll paste it into the config three times.
+
+2. **Open the app's config file.** Look under **Settings › Desktop app** for the option to
+   edit the config. It opens (or creates) `claude_desktop_config.json`. You can also open
+   the file directly in a text editor:
+
+   | System | Location |
+   |---|---|
+   | macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+   | Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+
+3. **Add the server.** Replace `/Users/YOU/agents/labs/06_claude_agents` with your path
+   from step 1. Paths must be absolute. If the file already has an `mcpServers` section,
+   add `"lab-tools": {...}` inside it rather than replacing the file.
+
+   macOS:
+
+   ```json
+   {
+     "mcpServers": {
+       "lab-tools": {
+         "command": "/Users/YOU/agents/labs/06_claude_agents/.venv/bin/python",
+         "args": ["/Users/YOU/agents/labs/06_claude_agents/solutions/mcp_server/server.py"],
+         "env": { "LAB_DIR": "/Users/YOU/agents/labs/06_claude_agents" }
+       }
+     }
+   }
+   ```
+
+   Windows: the same, with `.venv\\Scripts\\python.exe` and every `\` doubled, as in
+   `solutions/claude_desktop_config.windows.json`.
+
+   This points at the finished server in `solutions/`, which finds `sample.csv` through
+   `LAB_DIR`. That matters because the app doesn't start the server in the lab folder, so
+   a `csv_stats` that opens `sample.csv` by a relative path would fail.
+
+4. **Quit the app completely and reopen it.** Closing the window isn't enough: quit from
+   the menu bar (macOS) or the system tray (Windows).
+
+5. **Check it's there.** `lab-tools` should now appear in **Settings › Plugins** as a
+   local MCP server. In a new chat, the **+** button under the message box also lists it
+   under **Connectors**, with `calculate` and `csv_stats`.
+
+6. **Ask:**
+
+   > Using the lab-tools server, what's the average salary by department in sample.csv?
+
+   The app asks your permission before the first tool call. Allow it, and Claude answers
+   from `csv_stats`: the same tool, now in a different app.
+
+**Answer in one line:** what did you have to give the app by hand that Claude Code found on
+its own in the lab folder (`.claude/skills/`, `.mcp.json`)?
+
+**Connectors tab vs this config file.** The **Connectors** tab is for servers on the
+internet, added by URL (Gmail, Slack, or your own remote server). `lab-tools` is a local
+program, so it goes in the config file instead.
+
+**If `lab-tools` doesn't appear:** the server failed to start. Check the logs, in
+`~/Library/Logs/Claude/` (macOS) or `%APPDATA%\Claude\logs\` (Windows): `mcp.log` and
+`mcp-server-lab-tools.log` show the error. The usual causes are a wrong path, a path that
+isn't absolute, or a missing `.venv`. To test the command by hand, run the `command` and
+`args` from your config in a terminal: it should wait silently (press `Ctrl+C` to stop).
+
 ---
 
 ## Take-home
@@ -271,9 +374,10 @@ Then add a `divide` tool to both. In which file was it easier, and what did the 
 Both files use `claude-opus-5-5`. For a large class, `claude-haiku-5-5` costs much less per
 run; change `MODEL` at the top.
 
-**C. Same server, another app.** Your MCP server isn't tied to Claude Code. Read how the
-Claude app connects to MCP servers (Settings › Connectors) and write down what you'd need
-to change to share `lab-tools` with someone who doesn't use Claude Code.
+**C. Share it without a config file.** Step 6 needed a hand-edited config with absolute
+paths. Read how the Claude desktop app installs **desktop extensions** (`.mcpb` files) and
+write down what you'd need to package `lab-tools` as one, so a classmate could install it
+with a click.
 
 ## If you get stuck
 
