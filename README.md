@@ -8,7 +8,7 @@ and what keeps an agent safe.
 
 | Path | What it is |
 |---|---|
-| Lecture deck | [From Chat to Agent with Claude](https://claude.ai/artifact/VxdYTsrmJ1zVErnfKw6zXz): 18 slides with speaker notes; exports to PowerPoint or PDF |
+| [`docs/From-Chat-to-Agent-with-Claude.pdf`](docs/From-Chat-to-Agent-with-Claude.pdf) | The lecture slides as a PDF (18 slides). The editable deck, with speaker notes, is [online](https://claude.ai/artifact/VxdYTsrmJ1zVErnfKw6zXz) |
 | [`labs/06_claude_agents/`](labs/06_claude_agents/) | The lab: build a CSV analyst four ways in Claude Code. Start with [`LAB.md`](labs/06_claude_agents/LAB.md) |
 | [`legacy/`](legacy/) | Earlier material (LangChain/OpenAI notebooks, the old lecture, the ReAct activity), kept for reference |
 
