@@ -1,0 +1,5 @@
+# One username per line: lowercase letters, digits, - or _.
+# Copy this file to students.txt and replace the names.
+student01
+student02
+student03

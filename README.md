@@ -27,14 +27,14 @@ and what keeps an agent safe.
 
 ## Before class
 
-Students need Claude Code (signed in) and Python 3.10+. In the lab folder:
+Every student needs a Claude account that includes Claude Code: a paid plan (Pro, Max,
+Team or Enterprise) or a Claude Console API key. Then either:
 
-```bash
-cd labs/06_claude_agents
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+- **Their laptop:** Claude Code and Python 3.10+, set up as in the lab's
+  [`LAB.md`](labs/06_claude_agents/LAB.md) (Option A).
+- **A class VM on AWS:** for students who can't install Claude Code. You set up one Ubuntu
+  VM with an account per student; they only need SSH. See
+  [`labs/06_claude_agents/cloud/`](labs/06_claude_agents/cloud/README.md).
 
 The take-home API exercise also needs an Anthropic API key.
 

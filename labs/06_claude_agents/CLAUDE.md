@@ -8,7 +8,8 @@ project memory: short facts and rules, not a tutorial.
 - `primes.py`: a small script with some deliberate problems, for the code-review skill
 - `mcp_server/server.py`: the lab's MCP server (`lab-tools`)
 - `starter/skill.md`: a plain prompt file that lab step 2 turns into a skill
-- `api/`: a math-tutor agent on the Claude API, written with and without the Tool Runner
+- `take-home/`: take-home B, a math-tutor agent on the Claude API, written with and without the Tool Runner
+- `cloud/`: instructor scripts for the optional class VM on AWS; not part of the lab steps
 
 ## Rules
 - Treat `sample.csv` as read-only data. Never edit or delete it.

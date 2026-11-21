@@ -4,7 +4,7 @@ Every agent is the same loop, whatever the framework or provider:
 
     ask the model -> it asks for a tool -> run it -> send the result back -> repeat
 
-Run:  python api/reasoning_loop.py "What is 15 times 23, then add 10?"
+Run:  python take-home/reasoning_loop.py "What is 15 times 23, then add 10?"
 Auth: ANTHROPIC_API_KEY in the environment (or `ant auth login`).
 """
 

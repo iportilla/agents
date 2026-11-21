@@ -6,7 +6,7 @@ the stop_reason checks are gone: the runner does them. The tool's name, input
 schema and description now come from the function's name, type hints and
 docstring, as with LangChain's @tool and the MCP server's @mcp.tool().
 
-Run:  python api/tool_runner.py "What is 15 times 23, then add 10?"
+Run:  python take-home/tool_runner.py "What is 15 times 23, then add 10?"
 """
 
 import sys
